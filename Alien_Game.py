@@ -6,6 +6,7 @@ from ship import Ship
 class AlienInvasion:
     def __init__(self):
         pygame.init()
+        pygame.mouse.set_visible(False)
         self.settings = Settings()
 
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -36,16 +37,27 @@ class AlienInvasion:
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
             self.ship.moving_right = True
-        elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
+        if event.key == pygame.K_LEFT or event.key == pygame.K_a:
             self.ship.moving_left = True
+
+        if event.key == pygame.K_UP or event.key == pygame.K_w:
+            self.ship.moving_up = True
+        if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+            self.ship.moving_down = True
+
         elif event.key == pygame.K_ESCAPE:
             sys.exit()
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
             self.ship.moving_right = False
-        elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
+        if event.key == pygame.K_LEFT or event.key == pygame.K_a:
             self.ship.moving_left = False
+
+        if event.key == pygame.K_UP or event.key == pygame.K_w:
+            self.ship.moving_up = False
+        if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+            self.ship.moving_down = False
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
