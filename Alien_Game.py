@@ -75,6 +75,7 @@ class AlienInvasion:
 
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+            
         pygame.display.flip()
 
 if __name__ == "__main__":
