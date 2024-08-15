@@ -88,10 +88,10 @@ class AlienInvasion:
             self.bullets2.add(new_bullet2)
 
     def _update_bullets2(self):
-        self.bullets2.update2()
+        self.bullets2.update()
 
         for bullet2 in self.bullets2.copy():
-            if bullet2.rect3.bottom <= 0 and bullet2.rect4.bottom <= 0:
+            if bullet2.rect3.right >= 0 and bullet2.rect4.left <= 0:
                 self.bullets2.remove(bullet2)
 
     def _update_screen(self):
@@ -101,7 +101,7 @@ class AlienInvasion:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         for bullet2 in self.bullets2.sprites():
-            bullet2.draw_bullet2()
+            bullet2.draw_bullet()
             
         pygame.display.flip()
 
