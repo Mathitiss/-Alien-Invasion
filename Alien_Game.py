@@ -100,6 +100,25 @@ class AlienInvasion:
 
     def _create_fleet(self):
         enemy = Enemy(self)
+
+        enemy_width, enemy_heigh = enemy.rect.size
+        available_space_x = self.settings.screen_width - (2 * enemy_width)
+        number_enemy_x = available_space_x // (2 * enemy_width)
+
+        ship_height = self.ship.rect.height
+        available_space_y = (self.settings.screen_height - (3 * enemy_heigh) - ship_height)
+        number_rows = available_space_y // (2 * enemy_heigh)
+        
+        for row_number in range(number_rows):
+            for enemy_number in range(number_enemy_x):
+                self._create_enemy(enemy_number, row_number)
+
+    def _create_enemy(self, enemy_number, row_number):
+        enemy = Enemy(self)
+        enemy_width, enemy_height = enemy.rect.size
+        enemy.x = enemy_width + 2 * enemy_width * enemy_number
+        enemy.rect.x = enemy.x
+        enemy.rect.y = enemy.rect.height + 2 * enemy.rect.height * row_number
         self.enemies.add(enemy)
 
     def _update_screen(self):
