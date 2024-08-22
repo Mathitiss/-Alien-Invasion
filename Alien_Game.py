@@ -5,6 +5,10 @@ from ship import Ship
 from enemy import Enemy
 from bullet import Bullet
 from bullet2 import Bullet2
+from star import Star
+
+from random import randint
+
 
 class AlienInvasion:
     def __init__(self):
@@ -23,8 +27,10 @@ class AlienInvasion:
         self.enemies = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.bullets2 = pygame.sprite.Group()
+        self.stars = pygame.sprite.Group()
 
         self._create_fleet()
+        self._more_stars()
         
     def run_game(self):
         while True:
@@ -121,6 +127,29 @@ class AlienInvasion:
         enemy.rect.y = enemy.rect.height + 2 * enemy.rect.height * row_number
         self.enemies.add(enemy)
 
+    def _more_stars(self):
+        star = Star(self)
+
+        star_width, star_heigh = star.rect.size
+        available_space_x = self.settings.screen_width - (2 * star_width)
+        number_enemy_x = available_space_x // (2 * star_width)
+
+        ship_height = self.ship.rect.height
+        available_space_y = (self.settings.screen_height - (3 * star_heigh) - ship_height)
+        random_number = randint(-10, 10)
+
+        for random in range(random_number):
+            for star_number in range(number_enemy_x):
+                self._create_enemy(star_number, row_number)
+
+    def _create_star(self, star_number, row_number):
+        star = Star(self)
+        star_width, star_height = star.rect.size
+        star.x = star_width + 2 * star_width * star_number
+        star.rect.x = star.x
+        star.rect.y = star.rect.height + 2 * star.rect.height * row_number
+        self.enemies.add(star)
+
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
@@ -131,6 +160,7 @@ class AlienInvasion:
             bullet2.draw_bullet()
 
         self.enemies.draw(self.screen)
+        self.stars.draw(self.screen)
             
         pygame.display.flip()
 
