@@ -11,7 +11,7 @@ class AlienInvasion:
         pygame.init()
         pygame.mouse.set_visible(False)
         self.settings = Settings()
-
+ 
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
@@ -31,7 +31,8 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self._update_bullets()
-            self._update_bullets2()                    
+            self._update_bullets2()
+            self._update_enemy()                    
             self._update_screen()
 
     def _check_events(self):
@@ -113,6 +114,17 @@ class AlienInvasion:
             for enemy_number in range(number_enemy_x):
                 self._create_enemy(enemy_number, row_number)
 
+    def _check_fleet_edges(self):
+        for enemy in self.enemies.sprites():
+            if enemy.check_edges():
+                self.change_fleet_direction()
+                break
+
+    def change_fleet_direction(self):
+        for enemy in self.enemies.sprites():
+            enemy.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
+
     def _create_enemy(self, enemy_number, row_number):
         enemy = Enemy(self)
         enemy_width, enemy_height = enemy.rect.size
@@ -120,6 +132,10 @@ class AlienInvasion:
         enemy.rect.x = enemy.x
         enemy.rect.y = enemy.rect.height + 2 * enemy.rect.height * row_number
         self.enemies.add(enemy)
+
+    def _update_enemy(self):
+        self._check_fleet_edges()
+        self.enemies.update()
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
