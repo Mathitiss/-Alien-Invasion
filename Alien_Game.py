@@ -84,8 +84,11 @@ class AlienInvasion:
         self.bullets.update()
 
         for bullet in self.bullets.copy():
-            if bullet.rect1.bottom <= 0 and bullet.rect2.bottom <= 0:
+            if bullet.rect.bottom <= 0 and bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+        collisions = pygame.sprite.groupcollide(self.bullets, self.enemies, True, True)
+        # collisions2 = pygame.sprite.groupcollide(self.bullets2, self.enemies, True, True)
 
     def _fire_bullet2(self):
         if len(self.bullets2) < self.settings.bullets2_allowed:
